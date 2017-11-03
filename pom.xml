@@ -61,8 +61,8 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.2.11.v20150529</version>
                 <configuration>
+                    <httpConnector><port>8080</port></httpConnector>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
-                    <httpConnector><port>9999</port></httpConnector>
                     <webApp>
                         <contextPath>/usermanager</contextPath>
                     </webApp>
