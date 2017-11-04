@@ -4,9 +4,11 @@ import Model.User;
 import Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -20,7 +22,22 @@ public class UserController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
     List<User> getAllUsers() {
-        return userService.getAllUsers();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userFromServer", new User());
+        modelAndView.setViewName("usersChekPage");
+        return (List<User>) modelAndView;
+    }
+    @RequestMapping(value = "/validate", method = RequestMethod.GET)
+    public ModelAndView ValidateUser() {
+        return (ModelAndView) userService.getAllUsers();
+    }
+
+    @RequestMapping(value="/check", method = RequestMethod.POST)
+    public @ResponseBody String checkUser(@ModelAttribute("userFromServer") User user){
+        if("admin".equals(user.getName()) && "admin".equals(user.getPassword())){
+            return "valid";
+        }
+        return "invalid";
 
     }
 
